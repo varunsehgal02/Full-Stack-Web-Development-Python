@@ -49,8 +49,4 @@ This project is licensed under the MIT License. See the LICENSE file for more de
 
 Happy Coding! 🎉
 
-
-Copy
-Edit
-
 Let me know if you need further edits!
