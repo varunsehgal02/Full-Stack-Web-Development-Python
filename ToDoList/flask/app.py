@@ -17,8 +17,14 @@ class Todo(db.Model):
         return f"{self.sno} - {self.title}"
 
 # Home route: Displays the todo list
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def hello_world():
+    if request.method == "POST":
+        todo_title = request.form['title']
+        todo_desc = request.form['desc']
+        data = Todo(title=todo_title, desc=todo_desc)
+        db.session.add(data)
+        db.session.commit()
     alltodo = Todo.query.all()
     return render_template("index.html", allTodo=alltodo)
 
@@ -33,11 +39,23 @@ def add_todo():
     return redirect(url_for("hello_world"))
 
 # Route to show all todos in the console
-@app.route("/show")
-def show():
-    alltodo = Todo.query.all()
-    print(alltodo)
-    return "Check console for database content."
+@app.route("/delete/<int:sno>", methods=["GET", "POST"])
+def delete(sno):
+    todo = Todo.query.filter_by(sno=sno).first()
+    db.session.delete(todo)
+    db.session.commit()
+    return redirect(url_for("hello_world"))
+
+# Route to update the todo task
+@app.route("/update/<int:sno>", methods=["GET", "POST"])
+def update(sno):
+    todo = Todo.query.filter_by(sno=sno).first()
+    if request.method == "POST":
+        todo.title = request.form['title']
+        todo.desc = request.form['desc']
+        db.session.commit()
+        return redirect(url_for("hello_world"))
+    return render_template("update.html", todo=todo)
 
 if __name__ == "__main__":
     app.run(debug=True)
