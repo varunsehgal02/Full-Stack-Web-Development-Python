@@ -47,6 +47,3 @@ Contributions are welcome! Feel free to fork this repository, create a branch, a
 License
 This project is licensed under the MIT License. See the LICENSE file for more details.
 
-Happy Coding! 🎉
-
-Let me know if you need further edits!
